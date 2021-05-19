@@ -9,11 +9,6 @@
     </properties>
     <root id="archive" name="ex03-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="ex03:war exploded" />
-      <element id="directory" name="WEB-INF">
-        <element id="directory" name="lib">
-          <element id="library" level="project" name="org.jsoup:jsoup:1.13.1" />
-        </element>
-      </element>
     </root>
   </artifact>
 </component>

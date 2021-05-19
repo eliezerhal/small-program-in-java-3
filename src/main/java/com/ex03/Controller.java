@@ -51,8 +51,6 @@ public class Controller extends HttpServlet {
         out.println("<p>visit in <a href=\"ThreadCounter\">this page</a> to track results</p>" +
                 "</body>\n" +
                 "</html>");
-
-
     }
 
     public void destroy() {
