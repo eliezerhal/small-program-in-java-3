@@ -40,8 +40,10 @@ public class ThreadCounter extends HttpServlet {
                 "</head>\n" +
                 "<body>" +
                 "<p>Crawling URL " + url +" Current results: " + db.getImgCount(id) + " images found.</p>" +
-                " press   <a href=\"/ThreadCounter\">here</a> to reload\n" +
-                "</body>");
+                " press   <a href=\"/ThreadCounter\">here</a> to reload<br/>\n" +
+                "<a href=\"/\">return to the main page</a> " +
+                "</body>" +
+                "</html>");
     }
 
     @Override

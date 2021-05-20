@@ -11,10 +11,11 @@ import java.util.HashSet;
 public class WebCrawlerWithDepth extends Thread {
     private static final int MAX_DEPTH = 2;
     private final HashSet<String> links;
-    private int imageCounter = 0;
-    private Integer id = 0;
+    //private int imageCounter = 0;
+    private Integer id;
     private DataBase db;
     private String url;
+    private boolean dead = false;
 
     public WebCrawlerWithDepth() {
         links = new HashSet<>();
@@ -34,7 +35,7 @@ public class WebCrawlerWithDepth extends Thread {
                 for (Element page : linksOnPage) {
                     getPageLinks(page.attr("abs:href"), depth);
                 }
-            } catch (IOException e) {
+            } catch (IOException | IllegalArgumentException e) {
                 System.err.println("For '" + URL + "': " + e.getMessage());
             }
         }
@@ -46,7 +47,16 @@ public class WebCrawlerWithDepth extends Thread {
         url = url1;
     }
 
-    public void run() {getPageLinks(url, 0);}
+    public void run() {
+        getPageLinks(url, 0);
+        dead = true;
+    }
+
+    public String checkingLiveness () {
+        if(dead == true)
+            return "Final";
+        return "Current";
+    }
 
     /*public static void main(String[] args) {
         new WebCrawlerWithDepth().getPageLinks("http://www.mkyong.com/", 0);
