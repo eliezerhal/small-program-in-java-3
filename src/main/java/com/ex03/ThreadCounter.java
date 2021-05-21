@@ -41,16 +41,18 @@ public class ThreadCounter extends HttpServlet {
                 "<body>" +
                 "<p>Crawling URL " + url);
         synchronized(this) {
-            if (db.wc.get(id).checkingLiveness() == false) {
+            if (!db.wc.get(id).checkingLiveness()) {
                 out.println(" Current ");
             } else {
                 out.println(" Final ");
             }
-            out.println("results: " + db.wc.get(id).getImgCount() + " images found.</p>" +
-                    " press   <a href=\"/ThreadCounter\">here</a> to reload<br/>\n" +
-                    "<a href=\"/\">return to the main page</a> " +
-                    "</body>" +
-                    "</html>");
+            out.println("results: " + db.wc.get(id).getImgCount() + " images found.</p>");
+            if (db.wc.get(id).checkingLiveness())
+                out.println("crawling is finished!");
+                out.println(" press   <a href=\"/ThreadCounter\">here</a> to reload<br/>\n" +
+                        "<a href=\"/\">return to the main page</a> " +
+                        "</body>" +
+                        "</html>");
         }
     }
 
