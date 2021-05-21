@@ -39,11 +39,19 @@ public class ThreadCounter extends HttpServlet {
                 "    <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">\n" +
                 "</head>\n" +
                 "<body>" +
-                "<p>Crawling URL " + url +" Current results: " + db.getImgCount(id) + " images found.</p>" +
-                " press   <a href=\"/ThreadCounter\">here</a> to reload<br/>\n" +
-                "<a href=\"/\">return to the main page</a> " +
-                "</body>" +
-                "</html>");
+                "<p>Crawling URL " + url);
+        synchronized(this) {
+            if (db.wc.get(id).checkingLiveness() == false) {
+                out.println(" Current ");
+            } else {
+                out.println(" Final ");
+            }
+            out.println("results: " + db.wc.get(id).getImgCount() + " images found.</p>" +
+                    " press   <a href=\"/ThreadCounter\">here</a> to reload<br/>\n" +
+                    "<a href=\"/\">return to the main page</a> " +
+                    "</body>" +
+                    "</html>");
+        }
     }
 
     @Override

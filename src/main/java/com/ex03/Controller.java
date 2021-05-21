@@ -14,7 +14,8 @@ public class Controller extends HttpServlet {
         super.init(config);
         ServletContext context = getServletContext();
         // this param will be available to all other servlets
-        context.setAttribute("id", new int[]{0});
+        context.setAttribute("id", new int[]{-1});
+        //context.setAttribute("id", new Integer(-1));
         context.setAttribute("db", new DataBase());
     }
 
@@ -27,18 +28,24 @@ public class Controller extends HttpServlet {
         String url = request.getParameter("enterURL");
         ServletContext context = getServletContext();
         // this param will be available to all other servlets
-        WebCrawlerWithDepth wc = new WebCrawlerWithDepth();
-        int id[] = (int[]) context.getAttribute("id");
-        id[0]++;
-        DataBase db = (DataBase) context.getAttribute("db");
-        wc.insertData(id[0], db, url);
-        db.setImgCount(id[0]);
-        wc.start();
-        //wc.getPageLinks(url, 0);
-        Cookie cookie = new Cookie("url",url);
-        response.addCookie(cookie);
-        Cookie idCookie = new Cookie("id", String.valueOf(id[0]));
-        response.addCookie(idCookie);
+        WebCrawlerWithDepth wc = new WebCrawlerWithDepth(url);
+        //Integer id = (Integer) context.getAttribute("id");
+        synchronized(this) {
+            int id[] = (int[]) context.getAttribute("id");
+            id[0]++;
+            //id++;
+            DataBase db = (DataBase) context.getAttribute("db");
+            db.add(wc);
+            //wc.insertData(id[0], db, url);
+            //db.setImgCount(id[0]);
+            wc.start();
+            //wc.getPageLinks(url, 0);
+            Cookie cookie = new Cookie("url",url);
+            response.addCookie(cookie);
+            Cookie idCookie = new Cookie("id", String.valueOf(id[0]));
+            response.addCookie(idCookie);
+        }
+
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +

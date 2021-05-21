@@ -11,13 +11,14 @@ import java.util.HashSet;
 public class WebCrawlerWithDepth extends Thread {
     private static final int MAX_DEPTH = 2;
     private final HashSet<String> links;
-    //private int imageCounter = 0;
+    public int imageCounter = 0;
     private Integer id;
     private DataBase db;
     private String url;
-    private boolean dead = false;
+    public boolean dead = false;
 
-    public WebCrawlerWithDepth() {
+    public WebCrawlerWithDepth(String str) {
+        url = str;
         links = new HashSet<>();
     }
 
@@ -30,7 +31,8 @@ public class WebCrawlerWithDepth extends Thread {
                 Document document = Jsoup.connect(URL).get();
                 Elements linksOnPage = document.select("a[href]");
                 Elements imgOnPage = document.select("img");
-                db.updateImgCount(id, imgOnPage.size());
+                //db.updateImgCount(id, imgOnPage.size());
+                imageCounter += imgOnPage.size();
                 depth++;
                 for (Element page : linksOnPage) {
                     getPageLinks(page.attr("abs:href"), depth);
@@ -41,21 +43,23 @@ public class WebCrawlerWithDepth extends Thread {
         }
     }
 
-    public void insertData(Integer id1, DataBase db1, String url1){
+    /*public void insertData(Integer id1, DataBase db1, String url1){
         id = id1;
         db = db1;
         url = url1;
-    }
+    }*/
 
     public void run() {
         getPageLinks(url, 0);
         dead = true;
     }
 
-    public String checkingLiveness () {
-        if(dead == true)
-            return "Final";
-        return "Current";
+    public int getImgCount(){
+        return imageCounter;
+    }
+
+    public boolean checkingLiveness () {
+        return dead;
     }
 
     /*public static void main(String[] args) {
