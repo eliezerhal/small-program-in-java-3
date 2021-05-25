@@ -6,8 +6,18 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * This servlet handles everything related to threads
+ */
 @WebServlet(name = "ThreadCounter", value = "/ThreadCounter")
 public class ThreadCounter extends HttpServlet {
+    /**
+     * This function handles the request of get
+     * @param request The request of the user
+     * @param response The response of the user
+     * @throws ServletException if there is problems in the servlet
+     * @throws IOException If there is problems in reading the file
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = "";
@@ -40,24 +50,27 @@ public class ThreadCounter extends HttpServlet {
                 "</head>\n" +
                 "<body>" +
                 "<p>Crawling URL " + url);
-        synchronized(this) {
-            if (!db.wc.get(id).checkingLiveness()) {
+            if (!db.wc.get(id).checkingLiveness())
                 out.println(" Current ");
-            } else {
+            else
                 out.println(" Final ");
-            }
             out.println("results: " + db.wc.get(id).getImgCount() + " images found.</p>");
             if (db.wc.get(id).checkingLiveness())
-                out.println("crawling is finished!");
+                out.println("crawling is finished!<br/>");
                 out.println(" press   <a href=\"/ThreadCounter\">here</a> to reload<br/>\n" +
                         "<a href=\"/\">return to the main page</a> " +
                         "</body>" +
                         "</html>");
-        }
     }
 
+    /**
+     * This function handles the request of post
+     * @param request The request of the user
+     * @param response The response of the user
+     * @throws IOException If there is problems in reading the file
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/");
     }
 }

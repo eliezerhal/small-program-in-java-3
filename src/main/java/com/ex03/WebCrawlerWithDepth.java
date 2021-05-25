@@ -17,11 +17,20 @@ public class WebCrawlerWithDepth extends Thread {
     private String url;
     public boolean dead = false;
 
+    /**
+     * This is the class constructor function
+     * @param str Is the URL where the crawler begins the search
+     */
     public WebCrawlerWithDepth(String str) {
         url = str;
         links = new HashSet<>();
     }
 
+    /**
+     * This recursive function returns links of pages that crawler found
+     * @param URL Is the url where the crawler is supposed to look now
+     * @param depth Is the depth where the crawler is now
+     */
     public void getPageLinks(String URL, int depth) {
         if ((!links.contains(URL) && (depth < MAX_DEPTH))) {
             System.out.println(">> Depth: " + depth + " [" + URL + "]");
@@ -49,16 +58,27 @@ public class WebCrawlerWithDepth extends Thread {
         url = url1;
     }*/
 
+    /**
+     * This function runs the threads
+     */
     public void run() {
         getPageLinks(url, 0);
         dead = true;
     }
 
-    public int getImgCount(){
+    /**
+     * This function returns the counter of images of the thread
+     * @return the counter of images of the thread
+     */
+    public synchronized int getImgCount() {
         return imageCounter;
     }
 
-    public boolean checkingLiveness () {
+    /**
+     * This function checking if the thread is dead or not
+     * @return true if the thread is dead and false if it's not
+     */
+    public synchronized boolean checkingLiveness () {
         return dead;
     }
 

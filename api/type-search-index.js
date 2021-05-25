@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"com.ex03","l":"BasicWebCrawler"},{"p":"com.ex03","l":"Controller"},{"p":"com.ex03","l":"DataBase"},{"p":"com.ex03","l":"Extractor"},{"p":"com.ex03","l":"ThreadCounter"},{"p":"com.ex03","l":"ThreadFactory"},{"p":"com.ex03","l":"ThreadObj"},{"p":"com.ex03","l":"WebCrawlerWithDepth"}];updateSearchResults();
